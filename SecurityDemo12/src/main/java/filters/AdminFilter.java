@@ -50,13 +50,11 @@ public class AdminFilter implements Filter {
         
         // Check if the user is an admin
         String email = (String) httpRequest.getSession().getAttribute("email");
+        Integer roleId = (Integer) httpRequest.getSession().getAttribute("role");
         
-        UserDB userDb = new UserDB();
-        User user = userDb.get(email);
-        
-        if (user == null) {
+        if (roleId == null) {
             httpResponse.sendRedirect("login");
-        }else if (user.getRole().getRoleId() == 1) {
+        }else if (roleId == 1) {
             chain.doFilter(request, response);
         } else {
             httpResponse.sendRedirect("notes");
